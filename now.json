@@ -1,7 +1,7 @@
 {"version":2,
     "name":"demo",
     "builds":[
-        {"src":"index.html","use":"@now/html-minifier"},
-        { "src": "*.json", "use": "@now/html-minifier" },
-        { "src": "*.css", "use": "@now/html-minifier" } ]
+        {"src":"index.html","use":"@now/static"},
+        { "src": "nations.json", "use": "@now/static" },
+        { "src": "style.css", "use": "@now/static" } ]
 }
