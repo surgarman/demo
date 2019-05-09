@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html class="ocks-org do-not-copy">
 <meta charset="utf-8">
@@ -56,8 +55,12 @@ text {
 
 <p id="chart"></p>
 
-<aside>Figure 2. Scientific fame. </aside>
-<p>a, Google Books Ngram facsimiles scientific fame of the 25 most famous mathematicians born between 1800 and 1920. (data from Michel, J.-B. et al. Science. 331, 176–182 (2011)). The tipping point of Warren Weaver’s scientific frame occurs around 45-years old. b, Luckily, American mathematician Warren Weaver has enjoyed great fame in his own lifetime. c, Google Books Ngram facsimiles scientific fame of some founders of molecular biology, like Thomas Clifford Allbutt, Warren Weaver, William Thomas Astbury, William Keith Brooks, Erwin Chargaff, Linus Carl Pauling, Jerry Donohue, James Dewey Watson, Francis Harry Compton Crick, Rosalind Elsie Franklin, Oswald Theodore Avery and Jacques Lucien Monod from 1828 to 2008. The tipping point of Warren Weaver’s scientific fame occurs around 1939, and then other pioneers had failed to keep abreast of Weaver any more.</p>
+<aside>Mouseover the year to move forward and backwards through time. </aside>
+<p>Figure 2. Scientific fame.a, Google Books Ngram facsimiles scientific fame of the 25 most famous mathematicians born between 1800 and 1920. (data from Michel, J.-B. et al. Science. 331, 176–182 (2011)). 
+  The tipping point of Warren Weaver’s scientific frame occurs around 45-years old. b, Luckily, American mathematician Warren Weaver has enjoyed great fame in his own lifetime. 
+  c, Google Books Ngram facsimiles scientific fame of some founders of molecular biology, like Thomas Clifford Allbutt, Warren Weaver, William Thomas Astbury, William Keith Brooks, Erwin Chargaff, 
+  Linus Carl Pauling, Jerry Donohue, James Dewey Watson, Francis Harry Compton Crick, Rosalind Elsie Franklin, Oswald Theodore Avery and Jacques Lucien Monod from 1828 to 2008. The tipping point of Warren Weaver’s scientific fame occurs around 1939,
+   and then other pioneers had failed to keep abreast of Weaver any more.</p>
 <footer>
     <aside>April 09, 2019</aside>
     <a>Author</a>
@@ -79,9 +82,10 @@ var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
     height = 500 - margin.top - margin.bottom;
 
 // Various scales. These domains make assumptions of data, naturally.
-var xScale = d3.scale.log().domain([300, 1e5]).range([0, width]),
-    yScale = d3.scale.linear().domain([10, 85]).range([height, 0]),
-    radiusScale = d3.scale.sqrt().domain([0, 5e8]).range([0, 40]),
+// 创建SVG容器并设置原点。
+var xScale = d3.scale.log().domain([1800, 2009]).range([0, width]),
+    yScale = d3.scale.linear().domain([0, 70]).range([height, 0]),
+    radiusScale = d3.scale.sqrt().domain([0, 100]).range([0, 40]),
     colorScale = d3.scale.category10();
 
 // The x & y axes.
@@ -221,18 +225,22 @@ d3.json("nations.json", function(nations) {
 
   // Tweens the entire chart by first tweening the year, and then the data.
   // For the interpolated data, the dots and label are redrawn.
+  // 通过首先补间年份，然后补间数据来补间整个图表。
+  // 对于插值数据，重绘点和标签。
   function tweenYear() {
     var year = d3.interpolateNumber(1800, 2008);
     return function(t) { displayYear(year(t)); };
   }
 
   // Updates the display to show the specified year.
+  // 更新显示以显示指定的年份。
   function displayYear(year) {
     dot.data(interpolateData(year), key).call(position).sort(order);
     label.text(Math.round(year));
   }
 
   // Interpolates the dataset for the given (fractional) year.
+  // 插入给定（小数）年份的数据集。
   function interpolateData(year) {
     return nations.map(function(d) {
       return {
@@ -246,6 +254,7 @@ d3.json("nations.json", function(nations) {
   }
 
   // Finds (and possibly interpolates) the value for the specified year.
+  // 查找（并可能插入）指定年份的值。
   function interpolateValues(values, year) {
     var i = bisect.left(values, year, 0, values.length - 1),
         a = values[i];
