@@ -1,1 +1,7 @@
-{"version":2,"name":"demo","builds":[{"src":"index.html","use":"@now/html-minifier"}]}
+{"version":2,
+    "name":"demo",
+    "builds":[
+        {"src":"index.html","use":"@now/html-minifier"},
+        { "src": "*.json", "use": "@now/html-minifier" },
+        { "src": "*.css", "use": "@now/html-minifier" } ]
+}
