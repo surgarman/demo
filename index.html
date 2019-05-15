@@ -12,16 +12,21 @@
 }
 
 text {
-  font: 10px sans-serif;
+  font: 0px sans-serif;
 }
 
 .dot {
   stroke: #000;
 }
 
-.axis path, .axis line {
+.axis path{
   fill: none;
   stroke: #000;
+  shape-rendering: crispEdges;
+}
+.axis line {
+  fill: none;
+  stroke: #fff;
   shape-rendering: crispEdges;
 }
 
@@ -83,14 +88,16 @@ var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
 
 // Various scales. These domains make assumptions of data, naturally.
 // 创建SVG容器并设置原点。
-var xScale = d3.scale.log().domain([1800, 2009]).range([0, width]),
+
+var xScale = d3.scale.log().domain([100, 1e5]).range([0, width]),
     yScale = d3.scale.linear().domain([0, 70]).range([height, 0]),
     radiusScale = d3.scale.sqrt().domain([0, 100]).range([0, 40]),
     colorScale = d3.scale.category10();
 
 // The x & y axes.
+
 var xAxis = d3.svg.axis().orient("bottom").scale(xScale).ticks(12, d3.format(",d")),
-    yAxis = d3.svg.axis().scale(yScale).orient("left");
+    yAxis = d3.svg.axis().scale(yScale).orient("right");
 
 // Create the SVG container and set the origin.
 // 创建SVG容器并设置原点。
@@ -105,12 +112,11 @@ svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis);
-
 // Add the y-axis.
 svg.append("g")
     .attr("class", "y axis")
     .call(yAxis);
-
+/*
 // Add an x-axis label.
 svg.append("text")
     .attr("class", "x label")
@@ -127,7 +133,7 @@ svg.append("text")
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
     .text("Scientific fame");
-
+*/
 // Add the year label; the value is set on transition.
 var label = svg.append("text")
     .attr("class", "year label")
