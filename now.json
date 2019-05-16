@@ -3,6 +3,7 @@
     "builds":[
         {"src":"index.html","use":"@now/static"},
         { "src": "nations.json", "use": "@now/static" },
+        { "src": "d3.legend.js", "use": "@now/static" },
         { "src": "style.css", "use": "@now/static" },
         { "src": "example.csv", "use": "@now/static" } ]
 }
