@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="ocks-org do-not-copy">
 <meta charset="utf-8">
-<title>Figure 2. Scientific fame</title>
+<title>null</title>
 <style>
 
 @import url(./style.css);
@@ -12,7 +12,7 @@
 }
 
 text {
-  font: 0px sans-serif;
+  font: 12px sans-serif;
 }
 
 .dot {
@@ -28,6 +28,10 @@ text {
   fill: none;
   stroke: #fff;
   shape-rendering: crispEdges;
+}
+.axis text{
+  font-family: sans-serif;
+  font-size: 0px;
 }
 
 .label {
@@ -46,8 +50,13 @@ text {
 .overlay {
   fill: none;
   pointer-events: all;
-  cursor: ew-resize;
+  cursor: ew-resize; 
 }
+
+.legend rect {
+  fill:rgb(253, 250, 250);
+  stroke:#000;
+  opacity:0;}
 
 </style>
 
@@ -56,7 +65,7 @@ text {
   <a>Author</a>
 </header>
 
-<h1>Figure 2. Scientific fame</h1>
+<h1>---</h1>
 
 <p id="chart"></p>
 
@@ -71,7 +80,10 @@ text {
     <a>Author</a>
 </footer>
 
-<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script></script>
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+<script src="d3.legend.js"></script>
+
 <script>
 
 // Various accessors that specify the four dimensions of data to visualize.
@@ -80,6 +92,7 @@ function y(d) { return d.lifeExpectancy; }
 function radius(d) { return d.population; }
 function color(d) { return d.region; }
 function key(d) { return d.name; }
+
 
 // Chart dimensions.
 var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
@@ -92,7 +105,7 @@ var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
 var xScale = d3.scale.log().domain([100, 1e5]).range([0, width]),
     yScale = d3.scale.linear().domain([0, 70]).range([height, 0]),
     radiusScale = d3.scale.sqrt().domain([0, 100]).range([0, 40]),
-    colorScale = d3.scale.category10();
+    colorScale = d3.scale.category20();
 
 // The x & y axes.
 
@@ -107,6 +120,7 @@ var svg = d3.select("#chart").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
 // Add the x-axis.
 svg.append("g")
     .attr("class", "x axis")
@@ -116,6 +130,7 @@ svg.append("g")
 svg.append("g")
     .attr("class", "y axis")
     .call(yAxis);
+
 /*
 // Add an x-axis label.
 svg.append("text")
@@ -153,13 +168,21 @@ d3.json("nations.json", function(nations) {
   // 每个国家添加一个点。 在1800初始化数据，并设置颜色。
   var dot = svg.append("g")
       .attr("class", "dots")
-    .selectAll(".dot")
+      .selectAll(".dot")
       .data(interpolateData(1800))
-    .enter().append("circle")
+      .enter().append("circle")
       .attr("class", "dot")
+      .attr("data-legend",function(d) { return d.name})
       .style("fill", function(d) { return colorScale(color(d)); })
       .call(position)
       .sort(order);
+
+
+  legend = svg.append("g")
+    .attr("class","legend")
+    .attr("transform","translate(700,10)")
+    .style("font-size","10px")
+    .call(d3.legend)
 
   // Add a title.
   dot.append("title")
@@ -275,8 +298,8 @@ d3.json("nations.json", function(nations) {
 });
 
 </script>
-<script>
 
+<script>
 GoogleAnalyticsObject = "ga", ga = function() { ga.q.push(arguments); }, ga.q = [], ga.l = +new Date;
 ga("create", "UA-48272912-3", "ocks.org");
 ga("send", "pageview");
